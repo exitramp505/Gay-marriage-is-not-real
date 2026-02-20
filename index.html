@@ -1,210 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gay marriage is not real</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gay marriage is not real</title>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #ffffff;
-      min-height: 100vh;
-      padding: 16px 12px;
-      color: #000;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-    }
+:root{
+  --chat-bg:#ffffff;
+  --in-bubble:#e5e5ea;
+  --out-bubble:#007aff;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 1.5em;
-      color: #111;
-    }
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--chat-bg);
+  min-height:100vh;
+  padding:16px 12px;
+  color:#000;
+}
 
-    /* ── Tabs ──────────────────────────────────────────────── */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-      flex-wrap: wrap;
-    }
+.container{
+  width:100%;
+  max-width:480px;
+  margin:0 auto;
+}
 
-    .tab-input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
+h1{
+  text-align:center;
+  margin-bottom:24px;
+  font-size:1.5em;
+  color:#111;
+}
 
-    .tab-label {
-      padding: 12px 20px;
-      font-size: 15px;
-      font-weight: 500;
-      color: #555;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-bottom: 3px solid transparent;
-      user-select: none;
-      text-align: center;
-      flex: 1;
-    }
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:center;
+  margin-bottom:20px;
+  border-bottom:1px solid #ddd;
+  flex-wrap:wrap;
+}
 
-    .tab-label:hover {
-      color: #007aff;
-    }
+.tab-input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
 
-    #tab1:checked ~ .tabs .tab-label[for="tab1"],
-    #tab2:checked ~ .tabs .tab-label[for="tab2"],
-    #tab3:checked ~ .tabs .tab-label[for="tab3"] {
-      color: #007aff;
-      border-bottom: 3px solid #007aff;
-    }
+.tab-label{
+  padding:12px 20px;
+  font-size:15px;
+  font-weight:500;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  border-bottom:3px solid transparent;
+  user-select:none;
+  text-align:center;
+  flex:1;
+}
 
-    .tab-content {
-      display: none;
-    }
+.tab-label:hover{
+  color:#007aff;
+}
 
-    #tab1:checked ~ .tab-panels #panel1,
-    #tab2:checked ~ .tab-panels #panel2,
-    #tab3:checked ~ .tab-panels #panel3 {
-      display: block;
-    }
+#tab1:checked ~ .tabs .tab-label[for="tab1"],
+#tab2:checked ~ .tabs .tab-label[for="tab2"],
+#tab3:checked ~ .tabs .tab-label[for="tab3"]{
+  color:#007aff;
+  border-bottom:3px solid #007aff;
+}
 
-    /* ── Chat styling ──────────────────────────────────────── */
-    .chat {
-      display: flex;
-      flex-direction: column;
-    }
+.tab-content{
+  display:none;
+}
 
-    .messages {
-      display: flex;
-      flex-direction: column;
-      margin: 10px 0;
-    }
+#tab1:checked ~ .tab-panels #panel1,
+#tab2:checked ~ .tab-panels #panel2,
+#tab3:checked ~ .tab-panels #panel3{
+  display:block;
+}
 
-    .message {
-      max-width: 78%;
-      padding: 11px 15px;
-      margin: 2px 0;
-      font-size: 15.5px;
-      line-height: 1.35;
-      border-radius: 20px;
-      word-wrap: break-word;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.08);
-    }
+/* Chat layout */
+.chat{
+  display:flex;
+  flex-direction:column;
+}
 
-    .yours .message {
-      align-self: flex-start;
-      background: #e5e5ea;
-      color: #000;
-      border-bottom-left-radius: 4px;
-    }
+.messages{
+  display:flex;
+  flex-direction:column;
+  margin:10px 0;
+}
 
-    .mine .message {
-      align-self: flex-end;
-      background: #007aff;
-      color: white;
-      border-bottom-right-radius: 4px;
-    }
+.message{
+  position:relative;
+  max-width:78%;
+  padding:11px 15px;
+  margin:2px 0;
+  font-size:15.5px;
+  line-height:1.35;
+  border-radius:20px;
+  word-wrap:break-word;
+  box-shadow:0 1px 1px rgba(0,0,0,.08);
+}
 
-    .yours .message.last {
-      clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-      border-bottom-left-radius: 4px;
-    }
+/* Incoming */
+.yours .message{
+  align-self:flex-start;
+  background:var(--in-bubble);
+  color:#000;
+}
 
-    .mine .message.last {
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-      border-bottom-right-radius: 4px;
-    }
-  </style>
+.yours .message.last{
+  border-bottom-left-radius:4px;
+}
+
+/* Outgoing */
+.mine .message{
+  align-self:flex-end;
+  background:var(--out-bubble);
+  color:#fff;
+}
+
+.mine .message.last{
+  border-bottom-right-radius:4px;
+}
+
+/* iOS style tails (only on .last bubbles) */
+.yours .message.last::before,
+.yours .message.last::after,
+.mine .message.last::before,
+.mine .message.last::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  height:20px;
+}
+
+/* Left tail */
+.yours .message.last::before{
+  left:-7px;
+  width:20px;
+  background:var(--in-bubble);
+  border-bottom-right-radius:16px 14px;
+}
+
+.yours .message.last::after{
+  left:-26px;
+  width:26px;
+  background:var(--chat-bg);
+  border-bottom-right-radius:10px;
+}
+
+/* Right tail */
+.mine .message.last::before{
+  right:-7px;
+  width:20px;
+  background:var(--out-bubble);
+  border-bottom-left-radius:16px 14px;
+}
+
+.mine .message.last::after{
+  right:-26px;
+  width:26px;
+  background:var(--chat-bg);
+  border-bottom-left-radius:10px;
+}
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Gay marriage is not real</h1>
+<div class="container">
+<h1>Gay marriage is not real</h1>
 
-    <!-- Hidden radio inputs -->
-    <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
-    <input type="radio" name="tabs" id="tab2" class="tab-input">
-    <input type="radio" name="tabs" id="tab3" class="tab-input">
+<input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+<input type="radio" name="tabs" id="tab2" class="tab-input">
+<input type="radio" name="tabs" id="tab3" class="tab-input">
 
-    <!-- Tab labels -->
-    <div class="tabs">
-      <label class="tab-label" for="tab1">Procreation & Biology</label>
-      <label class="tab-label" for="tab2">Child Outcomes</label>
-      <label class="tab-label" for="tab3">Institutional Definition</label>
-    </div>
+<div class="tabs">
+  <label class="tab-label" for="tab1">Procreation & Biology</label>
+  <label class="tab-label" for="tab2">Child Outcomes</label>
+  <label class="tab-label" for="tab3">Institutional Definition</label>
+</div>
 
-    <!-- Tab panels -->
-    <div class="tab-panels">
+<div class="tab-panels">
 
-      <!-- Tab 1: Procreation & Biological Complementarity -->
-      <div id="panel1" class="tab-content">
-        <div class="chat">
-          <div class="yours messages">
-            <div class="message last">Marriage is about love and commitment—procreation isn't required. Infertile straight couples marry all the time without issue.</div>
-          </div>
-          <div class="mine messages">
-            <div class="message">The state's interest in marriage stems from the unique ability of opposite-sex couples to naturally create children. Government incentivizes stable unions to handle the potential for unplanned kids. Same-sex couples don't create that biological possibility, so the procreative rationale doesn't apply.</div>
-          </div>
-          <div class="yours messages">
-            <div class="message last">But adoption and surrogacy exist—biology isn't the only way to have kids.</div>
-          </div>
-          <div class="mine messages">
-            <div class="message last">Adoption is valuable, but marriage law was never built around it. The primary link is tying sexual unions to potential parenthood to encourage responsibility. Redefining marriage breaks that public connection.</div>
-          </div>
-        </div>
+  <div id="panel1" class="tab-content">
+    <div class="chat">
+
+      <div class="yours messages">
+        <div class="message last">Marriage is about love and commitment—procreation isn't required. Infertile straight couples marry all the time without issue.</div>
       </div>
 
-      <!-- Tab 2: Optimal Child Outcomes & Gender-Differentiated Parenting -->
-      <div id="panel2" class="tab-content">
-        <div class="chat">
-          <div class="yours messages">
-            <div class="message last">Modern studies show same-sex parents raise well-adjusted, happy kids—outcomes are equal or better in many cases.</div>
-          </div>
-          <div class="mine messages">
-            <div class="message">Some research highlights gender complementarity: fathers often promote independence and risk-taking, mothers emphasize nurturing and emotional attunement. Missing one gender can lead to gaps (e.g., boys without fathers showing higher behavioral issues on average).</div>
-          </div>
-          <div class="yours messages">
-            <div class="message last">Those older studies are flawed or biased—current evidence supports same-sex parenting just fine.</div>
-          </div>
-          <div class="mine messages">
-            <div class="message last">The body of long-term data is still limited compared to opposite-sex families. When the state privileges marriage, it should prioritize structures with the most established evidence of positive child outcomes.</div>
-          </div>
-        </div>
+      <div class="mine messages">
+        <!-- FIX: this one is a single bubble, so it must be .last -->
+        <div class="message last">The state's interest in marriage stems from the unique ability of opposite-sex couples to naturally create children. Government incentivizes stable unions to handle the potential for unplanned kids. Same-sex couples don't create that biological possibility, so the procreative rationale doesn't apply.</div>
       </div>
 
-      <!-- Tab 3: Preserving the Institutional Definition -->
-      <div id="panel3" class="tab-content">
-        <div class="chat">
-          <div class="yours messages">
-            <div class="message last">Marriage has evolved before (interracial, no-fault divorce)—expanding it to same-sex couples is just the next step toward equality.</div>
-          </div>
-          <div class="mine messages">
-            <div class="message">Previous changes preserved the core: a male-female union linked to biological family formation. Extending to same-sex removes that foundational tie, making marriage arbitrary and weakening norms like monogamy and permanence that support child-rearing stability.</div>
-          </div>
-          <div class="yours messages">
-            <div class="message last">If marriage is just committed adult love, why limit it at all?</div>
-          </div>
-          <div class="mine messages">
-            <div class="message last">Because without a specific public purpose (like procreation/family incentives), marriage loses its societal force. The institution exists to channel behavior in ways that benefit children and stability—not just to celebrate any adult pair.</div>
-          </div>
-        </div>
+      <div class="yours messages">
+        <div class="message last">But adoption and surrogacy exist—biology isn't the only way to have kids.</div>
+      </div>
+
+      <div class="mine messages">
+        <div class="message last">Adoption is valuable, but marriage law was never built around it. The primary link is tying sexual unions to potential parenthood to encourage responsibility. Redefining marriage breaks that public connection.</div>
       </div>
 
     </div>
   </div>
+
+  <div id="panel2" class="tab-content">
+    <div class="chat">
+
+      <div class="yours messages">
+        <div class="message last">Modern studies show same-sex parents raise well-adjusted, happy kids—outcomes are equal or better in many cases.</div>
+      </div>
+
+      <div class="mine messages">
+        <!-- FIX: single bubble, so .last -->
+        <div class="message last">Some research highlights gender complementarity: fathers often promote independence and risk-taking, mothers emphasize nurturing and emotional attunement. Missing one gender can lead to gaps (e.g., boys without fathers showing higher behavioral issues on average).</div>
+      </div>
+
+      <div class="yours messages">
+        <div class="message last">Those older studies are flawed or biased—current evidence supports same-sex parenting just fine.</div>
+      </div>
+
+      <div class="mine messages">
+        <div class="message last">The body of long-term data is still limited compared to opposite-sex families. When the state privileges marriage, it should prioritize structures with the most established evidence of positive child outcomes.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="panel3" class="tab-content">
+    <div class="chat">
+
+      <div class="yours messages">
+        <div class="message last">Marriage has evolved before (interracial, no-fault divorce)—expanding it to same-sex couples is just the next step toward equality.</div>
+      </div>
+
+      <div class="mine messages">
+        <!-- FIX: single bubble, so .last -->
+        <div class="message last">Previous changes preserved the core: a male-female union linked to biological family formation. Extending to same-sex removes that foundational tie, making marriage arbitrary and weakening norms like monogamy and permanence that support child-rearing stability.</div>
+      </div>
+
+      <div class="yours messages">
+        <div class="message last">If marriage is just committed adult love, why limit it at all?</div>
+      </div>
+
+      <div class="mine messages">
+        <div class="message last">Because without a specific public purpose (like procreation/family incentives), marriage loses its societal force. The institution exists to channel behavior in ways that benefit children and stability—not just to celebrate any adult pair.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
 
 </body>
 </html>
