@@ -1,6 +1,50 @@
 import './App.css'
 
 function App() {
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      // Simple feedback - could be improved with a toast later
+      const originalText = event?.target?.innerText;
+      if (event?.target) event.target.innerText = 'Copied!';
+      setTimeout(() => {
+        if (event?.target) event.target.innerText = originalText || 'Copy link';
+      }, 1500);
+    });
+  };
+
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://gaymarriageisnotreal.netlify.app';
+
+  const ShareButtons = ({ title, hash }) => {
+    const url = `${baseUrl}${hash}`;
+    const text = `${title} — Gay Marriage is not real`;
+
+    const twitter = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+
+    return (
+      <div className="mt-6 flex items-center gap-4 text-sm text-[#57534e]">
+        <span>Share this argument:</span>
+        <a href={twitter} target="_blank" rel="noopener noreferrer" className="hover:text-[#3b2a6e] underline">X</a>
+        <a href={facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#3b2a6e] underline">Facebook</a>
+        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#3b2a6e] underline">LinkedIn</a>
+        <button
+          onClick={(e) => {
+            navigator.clipboard.writeText(url).then(() => {
+              const btn = e.currentTarget;
+              const original = btn.innerText;
+              btn.innerText = "Copied!";
+              setTimeout(() => { btn.innerText = original; }, 1400);
+            });
+          }}
+          className="hover:text-[#3b2a6e] underline"
+        >
+          Copy link
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#fafaf9] text-[#1c1917]">
       {/* Clean minimal header */}
@@ -50,6 +94,11 @@ function App() {
               You're just a bigot.
             </div>
           </div>
+
+          <ShareButtons 
+            title="The State Does Not Need to Affirm Your Version of Love" 
+            hash="#arg-1" 
+          />
 
           {/* Next navigation */}
           <div className="flex justify-end mt-8">
@@ -106,6 +155,11 @@ function App() {
             </div>
           </div>
 
+          <ShareButtons 
+            title="Marriage Has a Real Definition" 
+            hash="#arg-2" 
+          />
+
           {/* Next navigation */}
           <div className="flex justify-end mt-8">
             <button
@@ -160,6 +214,11 @@ function App() {
               You're a hateful bigot.
             </div>
           </div>
+
+          <ShareButtons 
+            title="Children Need Mothers and Fathers" 
+            hash="#arg-3" 
+          />
 
           {/* Next navigation */}
           <div className="flex justify-end mt-8">
@@ -216,6 +275,11 @@ function App() {
             </div>
           </div>
 
+          <ShareButtons 
+            title="Redefining Marriage Changes It for Everyone" 
+            hash="#arg-4" 
+          />
+
           {/* Next navigation */}
           <div className="flex justify-end mt-8">
             <button
@@ -270,6 +334,11 @@ function App() {
               Wow, you're really obsessed with this. Get a life.
             </div>
           </div>
+
+          <ShareButtons 
+            title="If It's Just Feelings, Marriage Becomes Meaningless" 
+            hash="#arg-5" 
+          />
 
           {/* Back to top */}
           <div className="flex justify-end mt-8">
