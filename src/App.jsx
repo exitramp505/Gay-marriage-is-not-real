@@ -3,7 +3,6 @@ import './App.css'
 function App() {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      // Simple feedback - could be improved with a toast later
       const originalText = event?.target?.innerText;
       if (event?.target) event.target.innerText = 'Copied!';
       setTimeout(() => {
@@ -48,8 +47,20 @@ function App() {
   return (
     <div className="min-h-screen bg-[#fafaf9] text-[#1c1917]">
       {/* Clean minimal header */}
-      <div className="max-w-2xl mx-auto px-6 pt-10 pb-8">
+      <div className="max-w-2xl mx-auto px-6 pt-10 pb-4">
         <h1 className="text-3xl font-semibold tracking-tighter">Gay Marriage is not real</h1>
+      </div>
+
+      {/* Table of Contents */}
+      <div className="max-w-2xl mx-auto px-6 pb-8">
+        <div className="text-xs uppercase tracking-[1.5px] text-[#57534e] mb-2">Contents</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[15px]">
+          <a href="#arg-1" className="hover:text-[#3b2a6e] hover:underline">1. The State Does Not Need to Affirm Your Version of Love</a>
+          <a href="#arg-2" className="hover:text-[#3b2a6e] hover:underline">2. Marriage Has a Real Definition</a>
+          <a href="#arg-3" className="hover:text-[#3b2a6e] hover:underline">3. Children Need Mothers and Fathers</a>
+          <a href="#arg-4" className="hover:text-[#3b2a6e] hover:underline">4. Redefining Marriage Changes It for Everyone</a>
+          <a href="#arg-5" className="hover:text-[#3b2a6e] hover:underline">5. If It’s Just Feelings, Marriage Becomes Meaningless</a>
+        </div>
       </div>
 
       {/* Argument 1 */}
